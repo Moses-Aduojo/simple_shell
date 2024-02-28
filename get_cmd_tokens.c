@@ -6,17 +6,23 @@
  * @exec_args: store argument tokens
  * Return: void
  */
-void get_cmd_tokens(char *line, char **exec_args)
+void get_cmd_tokens(char *line_buff, char **exec_args)
 {
-	char *token;
-	int i = 0;
+/**	char *token;
+*	int i = 0;
+*	token = strtok(line, " ");
+*
+*	while (token != NULL && i <  1)
+*	{
+*		print(token);
+*		print("\n");
+*		exec_args[i] = token;
+*		token = strtok(NULL, " ");
+*		i++;
+*	}
+*	exec_args[i] = NULL;
+*/
 
-	token = strtok(line, " ");
-	while (token != NULL && i < MAX_TOKENS - 1)
-	{
-		exec_args[i] = token;
-		token = strtok(NULL, " ");
-		i++;
-	}
-	exec_args[i] = NULL;
+	exec_args[0] = line_buff;
+	exec_args[1] = NULL;
 }

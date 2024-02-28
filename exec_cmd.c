@@ -9,7 +9,7 @@ void exec_cmd(char **exec_args)
 {
 	if (execve(exec_args[0], exec_args, NULL) == -1)
 	{
-		perror("execve");
+		perror(exec_args[0]);
 		exit(EXIT_FAILURE);
 	}
 }
