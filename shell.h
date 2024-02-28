@@ -9,9 +9,11 @@
 #include <sys/wait.h>
 #include <stdbool.h>
 
-char **process_cmd(void);
+#define MAX_TOKENS 180
+void process_cmd(char *line_buff);
 int print(char *str);
-char *get_cmd(void);
-void exec_cmd(char **tokens);
+ssize_t get_cmd(char **line_buff, size_t *line_buf_size);
+void get_cmd_tokens(char *line_buff, char **exec_args);
+void exec_cmd(char **exec_args);
 
 #endif /*SHELL_H*/

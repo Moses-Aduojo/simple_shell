@@ -1,44 +1,29 @@
 #include "shell.h"
-#define MAX_TOKENS 180
 
 /**
  * process_cmd - get and parse command from command line
  * Return: pointer to an array of the command tokens processed
  */
-char **process_cmd(void)
+void process_cmd(char *line_buff)
 {
-	char *buff = NULL;
-	char **tokens = NULL;
-	char *token = NULL;
-	int i, j;
+	char *exec_args[MAX_TOKENS];
+	int status;
 
-	buff = get_cmd();
+	pid_t pid;
 
-	tokens = malloc(sizeof(char *) * MAX_TOKENS);
-	if (tokens == NULL)
+	get_cmd_tokens(line_buff, exec_args);
+	pid = fork();
+
+	if (pid < 0)
 	{
-		perror("malloc");
+		perror("fork");
 		exit(EXIT_FAILURE);
 	}
-
-	token = strtok(buff, " \t\n");
-	i = 0;
-	while (token != NULL && i < MAX_TOKENS - 1)
+	else if (pid == 0)
 	{
-		tokens[i] = strdup(token);
-		if (tokens[i] == NULL)
-		{
-			perror("strdup");
-			for (j = 0; j < i; j++)
-				free(tokens[j]);
-			free(tokens);
-			free(buff);
-			exit(EXIT_FAILURE);
-		}
-		i++;
-		token = strtok(NULL, " \t\n");
+		exec_cmd(exec_args);
 	}
-	tokens[i] = NULL;
-	free(buff);
-	return (tokens);
+	else
+		waitpid(pid, &status, 0);
+
 }

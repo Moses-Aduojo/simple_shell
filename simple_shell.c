@@ -6,34 +6,21 @@
  */
 int main(void)
 {
-	char **tokens;
-	int i;
+	char *line_buff = NULL;
+	size_t line_buff_size = 0;
+	ssize_t n_read;
 
 	while (true)
 	{
-		if (isatty(STDIN_FILENO))
-			print("$ ");
-
+		print("$ ");
 		fflush(stdout);
 
-		tokens = process_cmd();
+		n_read = get_cmd(&line_buff, &line_buff_size);
 
-		if (strcmp(tokens[0], "exit") == 0)
-		{
-			for (i = 0; tokens[i] != NULL; i++)
-				free(tokens[i]);
-			free(tokens);
+		line_buff[n_read - 1] = '\0';
 
-			break;
-		}
-
-		exec_cmd(tokens);
-
-		for (i = 0; tokens[i] != NULL; i++)
-			free(tokens[i]);
-		free(tokens);
-
+		process_cmd(line_buff);
 	}
-
+	free(line_buff);
 	return (0);
 }
