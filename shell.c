@@ -8,31 +8,26 @@ int main(void)
 {
 	char **tokens;
 	int i;
-	pid_t child_pid;
 
 	while (true)
 	{
-		print("hsh$ ");
+		if (isatty(STDIN_FILENO))
+			print("$ ");
+
 		fflush(stdout);
 
 		tokens = process_cmd();
 
-		child_pid = fork();
-		if (child_pid == -1)
+		if (strcmp(tokens[0], "exit") == 0)
 		{
-			perror("fork");
-			exit(EXIT_FAILURE);
+			for (i = 0; tokens[i] != NULL; i++)
+				free(tokens[i]);
+			free(tokens);
+
+			break;
 		}
-		else if (child_pid == 0)
-		{
-			execve(tokens[0], tokens, NULL);
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			wait(NULL);
-		}
+
+		exec_cmd(tokens);
 
 		for (i = 0; tokens[i] != NULL; i++)
 			free(tokens[i]);

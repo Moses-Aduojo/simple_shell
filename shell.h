@@ -12,5 +12,6 @@
 char **process_cmd(void);
 int print(char *str);
 char *get_cmd(void);
+void exec_cmd(char **tokens);
 
 #endif /*SHELL_H*/
