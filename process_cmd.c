@@ -4,7 +4,7 @@
  * process_cmd - get and parse command from command line
  * Return: pointer to an array of the command tokens processed
  */
-void process_cmd(char *line_buff)
+void process_cmd(char *line_buff, char *str, char **environ)
 {
 	char *exec_args[MAX_TOKENS];
 	int status;
@@ -21,7 +21,7 @@ void process_cmd(char *line_buff)
 	}
 	else if (pid == 0)
 	{
-		exec_cmd(exec_args);
+		exec_cmd(exec_args, str, environ);
 	}
 	else
 		waitpid(pid, &status, 0);
