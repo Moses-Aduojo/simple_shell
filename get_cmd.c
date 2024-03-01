@@ -14,7 +14,7 @@ ssize_t get_cmd(char **line_buff, size_t *line_buff_size)
 
 	if (n_read == -1 && feof(stdin))
 	{
-		print("\n");
+		/*print("\n");*/
 		exit(EXIT_SUCCESS);
 	}
 	else if (n_read == -1)
