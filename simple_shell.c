@@ -15,7 +15,10 @@ int main(int argc, char **argv, char **environ)
 
 	while (true)
 	{
-		print("$ ");
+		if (isatty(STDIN_FILENO))
+		{
+			print("$ ");
+		}
 		fflush(stdout);
 
 		n_read = get_cmd(&line_buff, &line_buff_size);
